@@ -4,6 +4,9 @@ PLAYER_RADIUS = 20      # (the radius of the player's ship)
 LINE_WIDTH = 2          # (the width of the lines that draw the player's ship)
 PLAYER_TURN_SPEED = 300
 PLAYER_SPEED = 200
+SHOT_RADIUS = 5
+PLAYER_SHOOT_SPEED = 500
+
 ASTEROID_MIN_RADIUS = 20
 ASTEROID_KINDS = 3
 ASTEROID_SPAWN_RATE_SECONDS = 0.8

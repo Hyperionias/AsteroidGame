@@ -1,12 +1,14 @@
 import pygame
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, PLAYER_SPEED, PLAYER_TURN_SPEED
+from constants import PLAYER_RADIUS, PLAYER_SPEED, PLAYER_TURN_SPEED,PLAYER_SHOOT_SPEED
+from shot import Shot
 
 
 class Player(CircleShape):
     def __init__(self, x, y):
             super().__init__(x, y, PLAYER_RADIUS)
-            self.rotation = 45  # 0 yerine geçici olarak 45 yaz ve kaydet
+            self.position = pygame.Vector2(x, y)
+            self.rotation = 0
 
     def triangle(self) -> list[pygame.Vector2]:
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -33,10 +35,21 @@ class Player(CircleShape):
             if keys[pygame.K_s]:
                 self.move(-dt)
 
-            self.move(dt)  # Test için otomatik olarak ileri hareket etmesini sağla
+            if keys[pygame.K_SPACE]:
+                self.shoot()
 
     def move(self,dt:float)-> None:
         unit_vector = pygame.Vector2(0, 1)
         rotated_vector = unit_vector.rotate(self.rotation)
         rotated_with_speed_vector = rotated_vector * PLAYER_SPEED * dt
         self.position += rotated_with_speed_vector
+
+    def shoot(self):
+        # 1. Instantiate Shot at player position
+        shot = Shot(self.position.x, self.position.y)
+
+        # 2. Vector starting downwards/forwards (0, 1), rotated by player's rotation
+        velocity = pygame.Vector2(0, 1).rotate(self.rotation)
+
+        # 3. Scale by shooting speed
+        shot.velocity = velocity * PLAYER_SHOOT_SPEED
