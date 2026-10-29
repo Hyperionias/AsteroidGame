@@ -40,12 +40,20 @@ def main():
         # 1. Update adımı
         updatable.update(dt)
 
-        # 2. Çarpışma kontrolü (Asteroid vs Player)
+        # 2. Çarpışma kontrolü
         for asteroid in asteroids:
+            # Asteroid vs Players
             if asteroid.collides_with(player):
                 log_event("player_hit")
                 print("Game over!")
                 sys.exit()
+
+            # Asteroid vs Shots
+            for shot in shots:
+                if asteroid.collides_with(shot):
+                    log_event("asteroid_shot")
+                    shot.kill()
+                    asteroid.split()
 
         # 3. Çizim adımı
         screen.fill("black")
